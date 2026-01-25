@@ -19,6 +19,7 @@ install_gnome_extensions() {
     fi
 
     run_cmd gext install "${extension_id}"
+    run_cmd gext enable "${extension_id}"
   done < "${list_file}"
 }
 
@@ -41,7 +42,12 @@ install_desktop() {
 
   case "${choice}" in
     "GNOME")
-      pkg gnome gnome-extra
+      pkg gdm \
+        gnome-shell \
+        gnome-control-center \
+        gnome-terminal \
+        nautilus \
+        gnome-keyring
       install_gnome_extensions
       enable_display_manager gdm
       ;;

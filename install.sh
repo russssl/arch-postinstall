@@ -51,10 +51,6 @@ if gum confirm "Do you want to install Paru?"; then
   install_paru
 fi
 
-if gum confirm "Do you want to install a desktop environment?"; then
-  install_desktop
-fi
-
 if gum confirm "Do you want to install dev tools and apps?"; then
   install_devtools
 fi
@@ -69,4 +65,8 @@ fi
 
 if gum confirm "Do you want to set up git config?"; then
   setup_git
+fi
+
+if gum confirm "Do you want to install a desktop environment?"; then
+  install_desktop
 fi
