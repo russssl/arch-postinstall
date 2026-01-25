@@ -1,12 +1,43 @@
 #!/bin/bash
 
+get_gnome_shell_version() {
+  gnome-shell --version | awk '{print $3}'
+}
+
+install_gnome_extension_from_ego() {
+  local extension_id shell_version info_url download_url
+  local extension_dir temp_dir
+
+  extension_id="${1}"
+  shell_version="$(get_gnome_shell_version)"
+  info_url="https://extensions.gnome.org/extension-info/?uuid=${extension_id}&shell_version=${shell_version}"
+  download_url="$(curl -fsSL "${info_url}" | sed -n 's/.*"download_url":"\\([^"]*\\)".*/\\1/p')"
+
+  if [[ -z "${download_url}" ]]; then
+    echo "Failed to resolve download URL for ${extension_id}"
+    return 1
+  fi
+
+  if is_dry_run; then
+    log_info "[DRY RUN] Would install GNOME extension ${extension_id}"
+    return 0
+  fi
+
+  extension_dir="${HOME}/.local/share/gnome-shell/extensions/${extension_id}"
+  temp_dir="$(mktemp -d)"
+
+  run_cmd mkdir -p "${extension_dir}"
+  run_cmd curl -fsSL "https://extensions.gnome.org${download_url}" -o "${temp_dir}/extension.zip"
+  run_cmd unzip -o "${temp_dir}/extension.zip" -d "${extension_dir}"
+  run_cmd rm -rf "${temp_dir}"
+}
+
 install_gnome_extensions() {
   local list_file extension_id
 
   list_file="${SCRIPT_DIR}/gnome-extensions.txt"
 
   pkg extension-manager
-  aur_pkg gnome-extensions-cli
 
   if [[ ! -f "${list_file}" ]]; then
     echo "GNOME extensions list not found: ${list_file}"
@@ -18,7 +49,7 @@ install_gnome_extensions() {
       continue
     fi
 
-    run_cmd gext install "${extension_id}"
+    install_gnome_extension_from_ego "${extension_id}"
   done < "${list_file}"
 }
 
