@@ -1,0 +1,5 @@
+tailscale-status@maxgallup.github.com
+tilingshell@ferrarodomenico.com
+extension-list@tu.berry
+caffeine@patapon.info
+custom-command-toggle@storageb.github.com
