@@ -4,17 +4,34 @@ get_gnome_shell_version() {
   gnome-shell --version | awk '{print $3}'
 }
 
+get_download_url() {
+  local info_url
+
+  info_url="${1}"
+  curl -fsSL "${info_url}" \
+    | sed -n 's/.*"download_url":"\\([^"]*\\)".*/\\1/p' \
+    | sed 's#\\/#/#g'
+}
+
 install_gnome_extension_from_ego() {
-  local extension_id shell_version info_url download_url
+  local extension_id shell_version shell_version_major
+  local info_url download_url
   local extension_dir temp_dir
 
   extension_id="${1}"
   shell_version="$(get_gnome_shell_version)"
+  shell_version_major="${shell_version%%.*}"
+
   info_url="https://extensions.gnome.org/extension-info/?uuid=${extension_id}&shell_version=${shell_version}"
-  download_url="$(curl -fsSL "${info_url}" | sed -n 's/.*"download_url":"\\([^"]*\\)".*/\\1/p')"
+  download_url="$(get_download_url "${info_url}")"
 
   if [[ -z "${download_url}" ]]; then
-    echo "Failed to resolve download URL for ${extension_id}"
+    info_url="https://extensions.gnome.org/extension-info/?uuid=${extension_id}&shell_version=${shell_version_major}"
+    download_url="$(get_download_url "${info_url}")"
+  fi
+
+  if [[ -z "${download_url}" ]]; then
+    echo "Failed to resolve download URL for ${extension_id} (shell ${shell_version})"
     return 1
   fi
 
