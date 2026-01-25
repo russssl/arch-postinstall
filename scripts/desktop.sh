@@ -43,9 +43,13 @@ install_desktop() {
   case "${choice}" in
     "GNOME")
       pkg gdm \
+        dbus \
         gnome-shell \
+        gnome-session \
+        gnome-settings-daemon \
         gnome-control-center \
         gnome-terminal \
+        gsettings-desktop-schemas \
         nautilus \
         gnome-keyring
       install_gnome_extensions
