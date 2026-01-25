@@ -19,7 +19,6 @@ install_gnome_extensions() {
     fi
 
     run_cmd gext install "${extension_id}"
-    run_cmd gext enable "${extension_id}"
   done < "${list_file}"
 }
 
@@ -51,7 +50,8 @@ install_desktop() {
         gnome-terminal \
         gsettings-desktop-schemas \
         nautilus \
-        gnome-keyring
+        gnome-keyring \
+        gnome-tweaks
       install_gnome_extensions
       enable_display_manager gdm
       ;;
