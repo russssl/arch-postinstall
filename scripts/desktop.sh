@@ -6,6 +6,7 @@ install_gnome_extensions() {
   list_file="${SCRIPT_DIR}/gnome-extensions.txt"
 
   pkg extension-manager
+  aur_pkg gnome-extensions-cli
 
   if [[ ! -f "${list_file}" ]]; then
     echo "GNOME extensions list not found: ${list_file}"
