@@ -47,6 +47,10 @@ if gum confirm "Do you want to set up Tailscale?"; then
   install_tailscale
 fi
 
+if gum confirm "Do you want to install Paru?"; then
+  install_paru
+fi
+
 if gum confirm "Do you want to install a desktop environment?"; then
   install_desktop
 fi
