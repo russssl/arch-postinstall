@@ -30,6 +30,7 @@ base_packages=(
   htop
   fastfetch
   vim
+  usbutils
 )
 
 echo "Updating system"
@@ -37,6 +38,10 @@ update_system
 
 echo "Installing base packages"
 pkg "${base_packages[@]}"
+
+if gum confirm "Do you want to install Paru?"; then
+  install_paru
+fi
 
 if gum confirm "Do you want to add default folders for user?"; then
   pkg xdg-user-dirs
@@ -47,8 +52,8 @@ if gum confirm "Do you want to set up Tailscale?"; then
   install_tailscale
 fi
 
-if gum confirm "Do you want to install Paru?"; then
-  install_paru
+if gum confirm "Do you want to install Solaar to manage Logitech devices?"; then
+  pkg solaar
 fi
 
 if gum confirm "Do you want to install dev tools and apps?"; then
