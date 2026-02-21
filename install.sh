@@ -64,6 +64,10 @@ if gum confirm "Do you want to install apps?"; then
   install_apps
 fi
 
+if gum confirm "Do you want to install gaming packages?" then
+  pkg nvidia-open-dkms steam lutris
+fi
+
 if gum confirm "Do you want to install shell aliases?"; then
   install_aliases
 fi
