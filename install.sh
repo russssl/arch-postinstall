@@ -65,6 +65,7 @@ if gum confirm "Do you want to install apps?"; then
 fi
 
 if gum confirm "Do you want to install gaming packages?"; then
+  ensure_multilib
   pkg nvidia-open-dkms steam lutris
 fi
 

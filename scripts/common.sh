@@ -78,6 +78,20 @@ pkg() {
   run_with_retries sudo pacman -S --needed --noconfirm "$@"
 }
 
+ensure_multilib() {
+  if is_dry_run; then
+    log_info "[DRY RUN] Would ensure multilib repo is enabled"
+    return 0
+  fi
+  if grep -q '^[[:space:]]*\[multilib\]' /etc/pacman.conf 2>/dev/null; then
+    return 0
+  fi
+  log_info "Enabling multilib repository (required for Steam)"
+  sudo sed -i 's/^#\[multilib\]$/[multilib]/' /etc/pacman.conf
+  sudo sed -i 's|^# Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
+  run_with_retries sudo pacman -Sy --noconfirm
+}
+
 update_system() {
   run_with_retries sudo pacman -Syu --noconfirm
 }
