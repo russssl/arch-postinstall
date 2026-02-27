@@ -31,10 +31,15 @@ base_packages=(
   fastfetch
   vim
   usbutils
+  gvfs-goa
+  tree
+  wget
+  curl
 )
 
 echo "Updating system"
 update_system
+ensure_multilib
 
 echo "Installing base packages"
 pkg "${base_packages[@]}"
@@ -65,8 +70,12 @@ if gum confirm "Do you want to install apps?"; then
 fi
 
 if gum confirm "Do you want to install gaming packages?"; then
-  ensure_multilib
   pkg nvidia-open-dkms steam lutris
+fi
+
+if gum confirm "Do you want to install syncthing and enable it?"; then
+  pkg syncthing
+  run_cmd sudo systemctl enable --now syncthing@russssl.service
 fi
 
 if gum confirm "Do you want to install shell aliases?"; then

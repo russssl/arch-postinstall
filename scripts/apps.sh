@@ -1,8 +1,7 @@
 #!/bin/bash
 
 install_apps() {
-  pkg mpv
-
+  pkg mpv extension-manager
   aur_pkg cursor-bin \
     helium-browser-bin \
     google-chrome \
@@ -10,5 +9,7 @@ install_apps() {
     feishin-bin \
     discord \
     spotify \
-    deluge
+    deluge \
+    obsidian \
+    thunderbird
 }
