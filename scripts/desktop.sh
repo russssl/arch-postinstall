@@ -15,7 +15,7 @@ enable_display_manager() {
 install_desktop() {
   local choice
 
-  choice="$(gum choose "GNOME" "KDE Plasma" "XFCE" "Hyprland")"
+  choice="$(gum choose "GNOME" "KDE Plasma" "Hyprland")"
 
   case "${choice}" in
     "GNOME")
@@ -35,9 +35,6 @@ install_desktop() {
     "KDE Plasma")
       pkg plasma kde-applications
       enable_display_manager sddm
-      ;;
-    "XFCE")
-      pkg xfce4 xfce4-goodies
       ;;
     "Hyprland")
       pkg hyprland

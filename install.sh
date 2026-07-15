@@ -33,8 +33,6 @@ base_packages=(
   usbutils
   gvfs-goa
   tree
-  wget
-  curl
 )
 
 echo "Updating system"
@@ -78,6 +76,11 @@ if gum confirm "Do you want to install syncthing and enable it?"; then
   run_cmd sudo systemctl enable --now syncthing@russssl.service
 fi
 
+if gum confirm "Do you want to install Docker and Docker Compose?"; then
+  pkg docker docker-compose
+  run_cmd sudo systemctl enable --now docker.socket
+fi
+
 if gum confirm "Do you want to install shell aliases?"; then
   install_aliases
 fi
@@ -86,6 +89,28 @@ if gum confirm "Do you want to set up git config?"; then
   setup_git
 fi
 
+if gum confirm "Do you want to generate a new SSH key?"; then
+  ssh_comment="$(gum input --placeholder "Comment for the key (e.g. email, leave blank to skip)")"
+  ssh-keygen -t ed25519 -C "${ssh_comment}" -f ~/.ssh/id_ed25519
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519
+  echo "Public key:"
+  cat ~/.ssh/id_ed25519.pub
+fi
+
 if gum confirm "Do you want to install a desktop environment?"; then
   install_desktop
+fi
+
+if gum confirm "Do you want to remove orphaned packages?"; then
+  if command -v paru &> /dev/null; then
+    run_cmd paru -c
+  else
+    orphans="$(pacman -Qtdq)"
+    if [[ -n "${orphans}" ]]; then
+      run_cmd sudo pacman -Rns --noconfirm ${orphans}
+    else
+      echo "No orphaned packages found"
+    fi
+  fi
 fi

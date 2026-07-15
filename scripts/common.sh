@@ -160,7 +160,7 @@ install_tailscale() {
 
   auth_key="${TAILSCALE_AUTHKEY:-}"
   if [[ -z "${auth_key}" ]]; then
-    auth_key="$(gum input --placeholder "TAILSCALE_AUTHKEY (leave blank for login URL)")"
+    auth_key="$(gum input --password --placeholder "TAILSCALE_AUTHKEY (leave blank for login URL)")"
   fi
 
   if [[ -n "${auth_key}" ]]; then

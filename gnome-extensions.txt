@@ -1,5 +1,7 @@
+extension-list@tu.berry
+gsconnect@andyholmes.github.io
+caffeine@patapon.info
+advanced-media-controller@sanjai.com
 tailscale-status@maxgallup.github.com
 tilingshell@ferrarodomenico.com
-extension-list@tu.berry
-caffeine@patapon.info
 custom-command-toggle@storageb.github.com
